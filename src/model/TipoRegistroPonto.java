@@ -8,7 +8,7 @@ package model;
  * SAIDA             fim da jornada de trabalho
  * OUTRO             registro imprevisto
  */
-public enum TipoRegistro {
+public enum TipoRegistroPonto {
     ENTRADA,
     INICIO_INTERVALO,
     FIM_INTERVALO,
