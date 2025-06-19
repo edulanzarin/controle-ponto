@@ -14,7 +14,7 @@ import java.util.UUID;
  * observacao       alguma observacao sobre esse registro
  */
 public class RegistroPonto {
-    
+
     private String id = UUID.randomUUID().toString();
     private TipoRegistroPonto tipoRegistro;
     private LocalDate data;
@@ -34,28 +34,35 @@ public class RegistroPonto {
     public String getId() {
         return id;
     }
-    
+
     public TipoRegistroPonto getTipoRegistro() {
         return tipoRegistro;
     }
+
     public void setTipoRegistro(TipoRegistroPonto tipoRegistro) {
         this.tipoRegistro = tipoRegistro;
     }
+
     public LocalDate getData() {
         return data;
     }
+
     public void setData(LocalDate data) {
         this.data = data;
     }
+
     public LocalTime getHora() {
         return hora;
     }
+
     public void setHora(LocalTime hora) {
         this.hora = hora;
     }
+
     public String getObservacao() {
         return observacao;
     }
+
     public void setObservacao(String observacao) {
         this.observacao = observacao;
     }

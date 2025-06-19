@@ -3,7 +3,7 @@ package util;
 import java.util.List;
 
 public class CsvUtil {
-    
+
     public List<String[]> lerCsv(String caminhoCsv) {
         /* TODO implementar método para ler registros de ponto do .csv */
         return List.of();
