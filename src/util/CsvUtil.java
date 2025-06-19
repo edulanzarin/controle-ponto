@@ -2,21 +2,26 @@ package util;
 
 import java.util.List;
 
+/*
+ * classe responsável por agrupar as funções que fazem as tratativas de arquivos CSV, como leitura e escrita
+ */
 public class CsvUtil {
 
-    public List<String[]> lerCsv(String caminhoCsv) {
-        /* TODO implementar método para ler registros de ponto do .csv */
+    /*
+     * faz a leitura linha por linha do arquivo CSV e retorna uma List<String[]> de
+     * todas as linhas
+     */
+    public List<String[]> lerLinhas(String caminhoCsv) {
+        // Lê linhas brutas
+
         return List.of();
     }
 
-    public void escreverCsv(String caminhoCsv, String dados) {
-        /* TODO implementar método para inserir registros de ponto no .csv */
-    }
-
-    public void salvarCsv(String caminhoCsv) {
-        /*
-         * TODO implementar método para salvar arquivo .csv dependendo do SO
-         * permite salvamento em sistemas Linux e Windows
-         */
+    /*
+     * faz a escrita de uma linha no arquivo CSV. essa linha será adicionada sempre
+     * após a última linha, nunca substituindo uma já existente
+     */
+    public void escreverLinha(String caminhoCsv, String linhaCsv) {
+        // Adiciona uma linha CSV ao arquivo
     }
 }
