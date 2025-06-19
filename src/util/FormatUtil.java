@@ -1,27 +1,34 @@
 package util;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import model.RegistroPonto;
-import model.TipoRegistroPonto;
 
 /*
- * classe responsável por agrupar funções que fazem a formatação do objeto RegistroPonto para outros tipos de arquivo
- * como CSV, JSON, etc.
+ * classe de serviço responsável por agrupar as funções responsáveis pela formatação de dados.
  */
 public class FormatUtil {
+
+    /*
+     * variáveis final para formatar a data e a hora do registroPonto para o formato
+     * utilizado no Brasil
+     */
+    private static final DateTimeFormatter DATA_FORMATADA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter HORA_FORMATADA = DateTimeFormatter.ofPattern("HH:mm");
 
     /*
      * transforma o objeto RegistroPonto em String com os dados separados por ";"
      * para armazenar em arquivo CSV
      */
-    public String registroPontoParaCsv(RegistroPonto registroPonto) {
+    public static String registroPontoParaCsv(RegistroPonto registroPonto) {
         String idRegistroPonto = registroPonto.getId();
-        TipoRegistroPonto tipoRegistroPonto = registroPonto.getTipoRegistro();
-        LocalDate dataRegistroPonto = registroPonto.getData();
-        LocalTime horaRegistroPonto = registroPonto.getHora();
+        String tipoRegistroPonto = registroPonto.getTipoRegistro().toString();
+        String dataRegistroPonto = registroPonto.getData().format(DATA_FORMATADA);
+        String horaRegistroPonto = registroPonto.getHora().format(HORA_FORMATADA);
         String observacaoRegistroPonto = registroPonto.getObservacao();
+        if (observacaoRegistroPonto == null) {
+            observacaoRegistroPonto = "";
+        }
 
         return String.format("%s;%s;%s;%s;%s", idRegistroPonto, tipoRegistroPonto, dataRegistroPonto, horaRegistroPonto,
                 observacaoRegistroPonto);
