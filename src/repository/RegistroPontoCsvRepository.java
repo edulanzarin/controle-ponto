@@ -29,7 +29,7 @@ public class RegistroPontoCsvRepository {
      * verifica se o arquivo CSV já existe no computador e se não existir cria ele a
      * partir do caminho obtido em obterCaminhoCsv()
      */
-    public void criarCsv() {
+    public void criarCsv() throws IOException {
         /*
          * chama o método obterCaminhoCsv() para obter o caminho completo do arquivo CSV
          * no linux: /home/usuario/applications/controle-ponto/registros.csv
@@ -51,32 +51,29 @@ public class RegistroPontoCsvRepository {
          */
         File diretorio = arquivo.getParentFile();
 
-        try {
-            /*
-             * 
-             */
-            if (!diretorio.exists()) {
-                boolean criado = diretorio.mkdirs();
-                if (!criado) {
-                    System.err.println("Erro ao criar diretório: " + diretorio.getAbsolutePath());
-                    return;
-                }
+        /*
+         * verifica se o diretório do arquivo CSV já existe
+         * se não existir, tenta criar com mkdirs()
+         * retorna uma IOException caso occora algum erro.
+         */
+        if (!diretorio.exists()) {
+            boolean criado = diretorio.mkdirs();
+            if (!criado) {
+                throw new IOException("Erro ao criar diretório: " + diretorio.getAbsolutePath());
             }
-
-            // Cria o arquivo se não existir
-            if (!arquivo.exists()) {
-                boolean criado = arquivo.createNewFile();
-                if (criado) {
-                    System.out.println("Arquivo CSV criado em: " + caminhoCsv);
-                } else {
-                    System.err.println("Não foi possível criar o arquivo CSV.");
-                }
-            } else {
-                System.out.println("Arquivo CSV já existe em: " + caminhoCsv);
-            }
-
-        } catch (IOException e) {
-            System.err.println("Erro ao criar o arquivo CSV: " + e.getMessage());
         }
+
+        /*
+         * se o diretório do arquivo CSV for criado com sucesso, então tenta criar o
+         * arquivo com createNewFile()
+         * retorna uma IOException caso occora algum erro.
+         */
+        if (!arquivo.exists()) {
+            boolean criado = arquivo.createNewFile();
+            if (!criado) {
+                throw new IOException("Não foi possível criar o arquivo CSV.");
+            }
+        }
+
     }
 }
