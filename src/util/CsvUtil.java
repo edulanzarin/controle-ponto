@@ -1,5 +1,8 @@
 package util;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 /*
@@ -12,7 +15,7 @@ public class CsvUtil {
      * todas as linhas
      */
     public List<String[]> lerLinhas(String caminhoCsv) {
-        // Lê linhas brutas
+        /* TODO implementar leitura do arquivo CSV */
 
         return List.of();
     }
@@ -22,6 +25,11 @@ public class CsvUtil {
      * após a última linha, nunca substituindo uma já existente
      */
     public void escreverLinha(String caminhoCsv, String linhaCsv) {
-        // Adiciona uma linha CSV ao arquivo
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCsv, true))) {
+            bw.write(linhaCsv);
+            bw.newLine(); /* garante que a próxima linha fique em uma linha nova */
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

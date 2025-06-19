@@ -3,6 +3,10 @@ package repository;
 import java.io.File;
 import java.io.IOException;
 
+import model.RegistroPonto;
+import util.CsvUtil;
+import util.FormatUtil;
+
 /*
  * classe para agrupar as funções do repositório CSV
  */
@@ -74,6 +78,31 @@ public class RegistroPontoCsvRepository {
                 throw new IOException("Não foi possível criar o arquivo CSV.");
             }
         }
+    }
 
+    /*
+     * adiciona um registroPonto no arquivo CSV
+     */
+    public void adicionarRegistroPonto(RegistroPonto registroPonto) {
+        /*
+         * verifica se o caminhoCsv não foi declarado ou se está vazio, caso seja "null"
+         * chama obterCaminhoCsv() para definir o caminho do arquivo CSV
+         */
+        if (caminhoCsv == null || caminhoCsv.isEmpty()) {
+            this.caminhoCsv = obterCaminhoCsv();
+        }
+
+        /*
+         * usa o método registroPontoParCsv() da classe utilitária FormatUtil para
+         * converter o objeto registroPonto em uma String formatada para CSV
+         */
+        String linhaCsv = FormatUtil.registroPontoParaCsv(registroPonto);
+
+        /*
+         * cria uma instância da classe utilitária CsvUtil e chama o método
+         * escreverLinha() e adiciona o registroPonto
+         */
+        CsvUtil csvUtil = new CsvUtil();
+        csvUtil.escreverLinha(caminhoCsv, linhaCsv);
     }
 }
