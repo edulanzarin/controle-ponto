@@ -2,7 +2,10 @@ package util;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -15,9 +18,19 @@ public class CsvUtil {
      * todas as linhas
      */
     public List<String[]> lerLinhas(String caminhoCsv) {
-        /* TODO implementar leitura do arquivo CSV */
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoCsv))) {
+            String linha;
+            List<String[]> linhas = new ArrayList<>();
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(";");
+                linhas.add(dados);
+            }
+            return linhas;
+        } catch (IOException e) {
+            e.printStackTrace();
 
-        return List.of();
+            return new ArrayList<>(); /* retorna uma linha vazio em caso de erro */
+        }
     }
 
     /*
