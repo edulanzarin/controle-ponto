@@ -1,18 +1,5 @@
-## Getting Started
+# Controle de Ponto
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+O **Controle de Ponto** é um sistema simples desenvolvido em Java para facilitar o registro de horários de trabalho. Com ele, é possível registrar diferentes tipos de marcações, como entrada, início e fim de intervalo, saída e outras situações, de forma prática e organizada.
 
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Os registros são salvos automaticamente em arquivos CSV, garantindo fácil acesso e portabilidade dos dados. O projeto foi pensado para ser multiplataforma, funcionando tanto em sistemas Linux quanto Windows, com criação automática dos diretórios e arquivos necessários.
