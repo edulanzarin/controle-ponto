@@ -105,4 +105,28 @@ public class RegistroPontoCsvRepository {
         CsvUtil csvUtil = new CsvUtil();
         csvUtil.escreverLinha(caminhoCsv, linhaCsv);
     }
+
+    public void editarRegistroPonto(RegistroPonto registroPonto) {
+        // Implementar a lógica de edição de registro ponto no CSV
+        // Isso pode envolver ler o arquivo, modificar a linha correspondente e
+        // reescrever o arquivo
+    }
+
+    public void removerRegistroPonto(RegistroPonto registroPonto) {
+        // Implementar a lógica de remoção de registro ponto no CSV
+        // Isso pode envolver ler o arquivo, filtrar a linha correspondente e reescrever
+        // o arquivo
+    }
+
+    public RegistroPonto buscarRegistroPontoPorId(int id) {
+        // Implementar a lógica de busca de registro ponto por ID no CSV
+        // Isso pode envolver ler o arquivo e retornar o registro correspondente
+        return null; // Retornar null ou um objeto RegistroPonto encontrado
+    }
+
+    public RegistroPonto[] listarRegistrosPonto() {
+        // Implementar a lógica de listagem de todos os registros ponto no CSV
+        // Isso pode envolver ler o arquivo e retornar um array de RegistroPonto
+        return new RegistroPonto[0]; // Retornar um array vazio ou os registros encontrados
+    }
 }
