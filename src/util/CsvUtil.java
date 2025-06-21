@@ -17,7 +17,7 @@ public class CsvUtil {
      * faz a leitura linha por linha do arquivo CSV e retorna uma List<String[]> de
      * todas as linhas
      */
-    public List<String[]> lerLinhas(String caminhoCsv) {
+    public static List<String[]> lerLinhas(String caminhoCsv) {
         try (BufferedReader br = new BufferedReader(new FileReader(caminhoCsv))) {
             String linha;
             List<String[]> linhas = new ArrayList<>();
@@ -37,7 +37,7 @@ public class CsvUtil {
      * faz a escrita de uma linha no arquivo CSV. essa linha será adicionada sempre
      * após a última linha, nunca substituindo uma já existente
      */
-    public void escreverLinha(String caminhoCsv, String linhaCsv) {
+    public static void escreverLinha(String caminhoCsv, String linhaCsv) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCsv, true))) {
             bw.write(linhaCsv);
             bw.newLine(); /* garante que a próxima linha fique em uma linha nova */
@@ -52,7 +52,7 @@ public class CsvUtil {
      * lê o arquivo linha por linha, e escreve todas as linhas em um novo arquivo,
      * exceto a linha que contém o id do registro de ponto especificado
      */
-    public void apagarLinha(String caminhoCsv, String idRegistroPonto) {
+    public static void apagarLinha(String caminhoCsv, String idRegistroPonto) {
         try (BufferedReader br = new BufferedReader(new FileReader(caminhoCsv));
                 BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCsv + ".tmp"))) {
             String linha;

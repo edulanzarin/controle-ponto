@@ -102,8 +102,7 @@ public class RegistroPontoCsvRepository {
          * cria uma instância da classe utilitária CsvUtil e chama o método
          * escreverLinha() e adiciona o registroPonto
          */
-        CsvUtil csvUtil = new CsvUtil();
-        csvUtil.escreverLinha(caminhoCsv, linhaCsv);
+        CsvUtil.escreverLinha(caminhoCsv, linhaCsv);
     }
 
     /*
@@ -119,6 +118,11 @@ public class RegistroPontoCsvRepository {
             this.caminhoCsv = obterCaminhoCsv();
         }
 
+        /*
+         * chama o método apagarLinha() da classe utilitária CsvUtil para remover a
+         * linha correspondente ao idRegistroPonto do arquivo CSV
+         */
+        CsvUtil.apagarLinha(caminhoCsv, idRegistroPonto);
     }
 
     /*
