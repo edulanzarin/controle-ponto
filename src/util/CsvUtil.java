@@ -34,6 +34,25 @@ public class CsvUtil {
         }
     }
 
+    public static String[] lerLinha(String caminhoCsv, String idRegistroPonto) {
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoCsv))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(";");
+                if (dados[0].equals(idRegistroPonto)) {
+                    return dados; /* retorna a linha correspondente ao idRegistroPonto */
+                }
+            }
+
+            return new String[0]; /* retorna um array vazio se não encontrar o idRegistroPonto */
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            return new String[0]; /* retorna um array vazio em caso de erro */
+        }
+    }
+
     /*
      * faz a escrita de uma linha no arquivo CSV. essa linha será adicionada sempre
      * após a última linha, nunca substituindo uma já existente
