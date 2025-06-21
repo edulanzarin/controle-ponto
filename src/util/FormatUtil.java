@@ -1,5 +1,7 @@
 package util;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import model.RegistroPonto;
@@ -23,8 +25,8 @@ public class FormatUtil {
     public static String registroPontoParaCsv(RegistroPonto registroPonto) {
         String idRegistroPonto = registroPonto.getId();
         String tipoRegistroPonto = registroPonto.getTipoRegistro().toString();
-        String dataRegistroPonto = registroPonto.getData().format(DATA_FORMATADA);
-        String horaRegistroPonto = registroPonto.getHora().format(HORA_FORMATADA);
+        String dataRegistroPonto = formatarData(registroPonto.getData());
+        String horaRegistroPonto = formatarHora(registroPonto.getHora());
         String observacaoRegistroPonto = registroPonto.getObservacao();
         if (observacaoRegistroPonto == null) {
             observacaoRegistroPonto = "";
@@ -32,5 +34,21 @@ public class FormatUtil {
 
         return String.format("%s;%s;%s;%s;%s", idRegistroPonto, tipoRegistroPonto, dataRegistroPonto, horaRegistroPonto,
                 observacaoRegistroPonto);
+    }
+
+    /*
+     * método static para formatar a data para o estilo dd/MM/yyyy
+     */
+    public static String formatarData(LocalDate dataRegistroPonto) {
+        String dataRegistroPontoFormatada = dataRegistroPonto.format(DATA_FORMATADA);
+        return dataRegistroPontoFormatada;
+    }
+
+    /*
+     * método static para formatar a hora para o estilo HH:mm
+     */
+    public static String formatarHora(LocalTime horaRegistroPonto) {
+        String horaRegistroPontoFormatada = horaRegistroPonto.format(HORA_FORMATADA);
+        return horaRegistroPontoFormatada;
     }
 }

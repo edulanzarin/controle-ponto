@@ -106,16 +106,20 @@ public class RegistroPontoCsvRepository {
         csvUtil.escreverLinha(caminhoCsv, linhaCsv);
     }
 
-    public void editarRegistroPonto(RegistroPonto registroPonto) {
-        // Implementar a lógica de edição de registro ponto no CSV
-        // Isso pode envolver ler o arquivo, modificar a linha correspondente e
-        // reescrever o arquivo
+    /*
+     * método responsável por fazer a edição de um registro de ponto escpecífico
+     * através do id
+     */
+    public void editarRegistroPonto(String idRegistroPonto) {
+
     }
 
-    public void removerRegistroPonto(RegistroPonto registroPonto) {
-        // Implementar a lógica de remoção de registro ponto no CSV
-        // Isso pode envolver ler o arquivo, filtrar a linha correspondente e reescrever
-        // o arquivo
+    /*
+     * método responsável por fazer a exclusão de um registro de ponto específico
+     * através do id
+     */
+    public void removerRegistroPonto(String idRegistroPonto) {
+
     }
 
     public RegistroPonto buscarRegistroPontoPorId(int id) {
