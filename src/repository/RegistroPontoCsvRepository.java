@@ -129,8 +129,21 @@ public class RegistroPontoCsvRepository {
      * método responsável por fazer a edição de um registro de ponto escpecífico
      * através do id
      */
-    public void editarRegistroPonto(String idRegistroPonto) {
+    public void editarRegistroPonto(String idRegistroPonto, RegistroPonto registroPonto) {
+        /*
+         * verifica se o caminhoCsv não foi declarado ou se está vazio, caso seja "null"
+         * chama obterCaminhoCsv() para definir o caminho do arquivo CSV
+         */
+        if (caminhoCsv == null || caminhoCsv.isEmpty()) {
+            this.caminhoCsv = obterCaminhoCsv();
+        }
 
+        /*
+         * chama o método editarLinha() da classe utilitária CsvUtil para editar a linha
+         * correspondente ao idRegistroPonto no arquivo CSV, passando a nova linha
+         * com os dados do registroPonto atualizado
+         */
+        CsvUtil.editarLinha(caminhoCsv, idRegistroPonto, FormatUtil.registroPontoParaCsv(registroPonto));
     }
 
     public RegistroPonto buscarRegistroPontoPorId(int id) {

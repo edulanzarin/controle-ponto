@@ -66,5 +66,29 @@ public class CsvUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        /* renomeia o arquivo temporário para o original */
+        new java.io.File(caminhoCsv + ".tmp").renameTo(new java.io.File(caminhoCsv));
+    }
+
+    public static void editarLinha(String caminhoCsv, String idRegistroPonto, String novaLinha) {
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoCsv));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCsv + ".tmp"))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(";");
+                if (dados[0].equals(idRegistroPonto)) {
+                    bw.write(novaLinha); /* escreve a nova linha no lugar da antiga */
+                } else {
+                    bw.write(linha); /* mantém a linha original */
+                }
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /* renomeia o arquivo temporário para o original */
+        new java.io.File(caminhoCsv + ".tmp").renameTo(new java.io.File(caminhoCsv));
     }
 }
