@@ -25,6 +25,7 @@ public class CsvUtil {
                 String[] dados = linha.split(";");
                 linhas.add(dados);
             }
+
             return linhas;
         } catch (IOException e) {
             e.printStackTrace();

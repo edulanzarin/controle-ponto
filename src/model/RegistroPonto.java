@@ -2,7 +2,6 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 /*
  * objeto Registro com a estrutura necessária para armazenar o ponto no arquivo .csv
@@ -15,7 +14,7 @@ import java.util.UUID;
  */
 public class RegistroPonto {
 
-    private String id = UUID.randomUUID().toString();
+    private String id;
     private TipoRegistroPonto tipoRegistro;
     private LocalDate data;
     private LocalTime hora;
@@ -25,7 +24,8 @@ public class RegistroPonto {
      * não recebe id, pois está sendo gerado aleatoriamente com UUID.randomUUID()
      * também não recebe observacao, pois é uma informação opcional
      */
-    public RegistroPonto(TipoRegistroPonto tipoRegistro, LocalDate data, LocalTime hora) {
+    public RegistroPonto(String id, TipoRegistroPonto tipoRegistro, LocalDate data, LocalTime hora) {
+        this.id = id;
         this.tipoRegistro = tipoRegistro;
         this.data = data;
         this.hora = hora;
@@ -33,6 +33,10 @@ public class RegistroPonto {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public TipoRegistroPonto getTipoRegistro() {
