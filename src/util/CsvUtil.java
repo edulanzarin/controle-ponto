@@ -67,48 +67,18 @@ public class CsvUtil {
     }
 
     /*
-     * método responsável por apagar uma linha específica do arquivo CSV
-     * recebe o caminho do arquivo CSV e o id do registro de ponto a ser apagado
-     * lê o arquivo linha por linha, e escreve todas as linhas em um novo arquivo,
-     * exceto a linha que contém o id do registro de ponto especificado
+     * método responsável por sobrescrever o arquivo CSV com uma nova lista de
+     * linhas para quando precisar atualizar todo o conteúdo do arquivo
      */
-    public static void apagarLinha(String caminhoCsv, String idRegistroPonto) {
-        try (BufferedReader br = new BufferedReader(new FileReader(caminhoCsv));
-                BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCsv + ".tmp"))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                String[] dados = linha.split(";");
-                if (!dados[0].equals(idRegistroPonto)) {
-                    bw.write(linha);
-                    bw.newLine();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        /* renomeia o arquivo temporário para o original */
-        new java.io.File(caminhoCsv + ".tmp").renameTo(new java.io.File(caminhoCsv));
-    }
-
-    public static void editarLinha(String caminhoCsv, String idRegistroPonto, String novaLinha) {
-        try (BufferedReader br = new BufferedReader(new FileReader(caminhoCsv));
-                BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCsv + ".tmp"))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                String[] dados = linha.split(";");
-                if (dados[0].equals(idRegistroPonto)) {
-                    bw.write(novaLinha); /* escreve a nova linha no lugar da antiga */
-                } else {
-                    bw.write(linha); /* mantém a linha original */
-                }
+    public static void sobrescreverArquivo(String caminhoCsv, List<String> linhasCsv) {
+        // Novo método para sobrescrever o arquivo (recriar o CSV inteiro)
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCsv))) {
+            for (String linha : linhasCsv) {
+                bw.write(linha);
                 bw.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /* renomeia o arquivo temporário para o original */
-        new java.io.File(caminhoCsv + ".tmp").renameTo(new java.io.File(caminhoCsv));
     }
 }

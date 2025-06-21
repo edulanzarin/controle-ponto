@@ -2,6 +2,8 @@ package repository;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.RegistroPonto;
 import util.CsvUtil;
@@ -110,19 +112,16 @@ public class RegistroPontoCsvRepository {
      * através do id
      */
     public void removerRegistroPonto(String idRegistroPonto) {
-        /*
-         * verifica se o caminhoCsv não foi declarado ou se está vazio, caso seja "null"
-         * chama obterCaminhoCsv() para definir o caminho do arquivo CSV
-         */
-        if (caminhoCsv == null || caminhoCsv.isEmpty()) {
-            this.caminhoCsv = obterCaminhoCsv();
+        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
+        List<String> novasLinhas = new ArrayList<>();
+
+        for (String[] linha : linhas) {
+            if (!linha[0].equals(idRegistroPonto)) {
+                novasLinhas.add(String.join(";", linha));
+            }
         }
 
-        /*
-         * chama o método apagarLinha() da classe utilitária CsvUtil para remover a
-         * linha correspondente ao idRegistroPonto do arquivo CSV
-         */
-        CsvUtil.apagarLinha(caminhoCsv, idRegistroPonto);
+        CsvUtil.sobrescreverArquivo(caminhoCsv, novasLinhas);
     }
 
     /*
@@ -130,20 +129,26 @@ public class RegistroPontoCsvRepository {
      * através do id
      */
     public void editarRegistroPonto(String idRegistroPonto, RegistroPonto registroPonto) {
-        /*
-         * verifica se o caminhoCsv não foi declarado ou se está vazio, caso seja "null"
-         * chama obterCaminhoCsv() para definir o caminho do arquivo CSV
-         */
-        if (caminhoCsv == null || caminhoCsv.isEmpty()) {
-            this.caminhoCsv = obterCaminhoCsv();
-        }
+        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
+        List<String> novasLinhas = new ArrayList<>();
 
-        /*
-         * chama o método editarLinha() da classe utilitária CsvUtil para editar a linha
-         * correspondente ao idRegistroPonto no arquivo CSV, passando a nova linha
-         * com os dados do registroPonto atualizado
-         */
-        CsvUtil.editarLinha(caminhoCsv, idRegistroPonto, FormatUtil.registroPontoParaCsv(registroPonto));
+        for (String[] linha : linhas) {
+            if (linha[0].equals(idRegistroPonto)) {
+                /*
+                 * se encontrar o registro com o idRegistroPonto, atualiza os dados
+                 * do registroPonto com os novos dados fornecidos
+                 * e converte novamente para o formato CSV
+                 */
+                String linhaAtualizada = FormatUtil.registroPontoParaCsv(registroPonto);
+                novasLinhas.add(linhaAtualizada);
+            } else {
+                /*
+                 * caso não encontre o registro com o idRegistroPonto,
+                 * adiciona a linha original sem alterações
+                 */
+                novasLinhas.add(String.join(";", linha));
+            }
+        }
     }
 
     public RegistroPonto buscarRegistroPontoPorId(int id) {
