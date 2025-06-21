@@ -107,18 +107,25 @@ public class RegistroPontoCsvRepository {
     }
 
     /*
-     * método responsável por fazer a edição de um registro de ponto escpecífico
-     * através do id
-     */
-    public void editarRegistroPonto(String idRegistroPonto) {
-
-    }
-
-    /*
      * método responsável por fazer a exclusão de um registro de ponto específico
      * através do id
      */
     public void removerRegistroPonto(String idRegistroPonto) {
+        /*
+         * verifica se o caminhoCsv não foi declarado ou se está vazio, caso seja "null"
+         * chama obterCaminhoCsv() para definir o caminho do arquivo CSV
+         */
+        if (caminhoCsv == null || caminhoCsv.isEmpty()) {
+            this.caminhoCsv = obterCaminhoCsv();
+        }
+
+    }
+
+    /*
+     * método responsável por fazer a edição de um registro de ponto escpecífico
+     * através do id
+     */
+    public void editarRegistroPonto(String idRegistroPonto) {
 
     }
 

@@ -45,4 +45,26 @@ public class CsvUtil {
             e.printStackTrace();
         }
     }
+
+    /*
+     * método responsável por apagar uma linha específica do arquivo CSV
+     * recebe o caminho do arquivo CSV e o id do registro de ponto a ser apagado
+     * lê o arquivo linha por linha, e escreve todas as linhas em um novo arquivo,
+     * exceto a linha que contém o id do registro de ponto especificado
+     */
+    public void apagarLinha(String caminhoCsv, String idRegistroPonto) {
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoCsv));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCsv + ".tmp"))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(";");
+                if (!dados[0].equals(idRegistroPonto)) {
+                    bw.write(linha);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
