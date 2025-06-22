@@ -151,10 +151,18 @@ public class RegistroPontoCsvRepository {
         }
     }
 
+    /*
+     * método responsável por buscar um registro de ponto específico
+     * através do id
+     */
     public RegistroPonto buscarRegistroPontoPorId(int id) {
-        // Implementar a lógica de busca de registro ponto por ID no CSV
-        // Isso pode envolver ler o arquivo e retornar o registro correspondente
-        return null; // Retornar null ou um objeto RegistroPonto encontrado
+        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
+        for (String[] linha : linhas) {
+            if (linha.length > 0 && linha[0].equals(String.valueOf(id))) {
+                return FormatUtil.csvParaRegistroPonto(String.join(";", linha));
+            }
+        }
+        return null; /* retorna null se não encontrar */
     }
 
     public RegistroPonto[] listarRegistrosPonto() {

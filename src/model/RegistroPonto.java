@@ -24,11 +24,12 @@ public class RegistroPonto {
      * não recebe id, pois está sendo gerado aleatoriamente com UUID.randomUUID()
      * também não recebe observacao, pois é uma informação opcional
      */
-    public RegistroPonto(String id, TipoRegistroPonto tipoRegistro, LocalDate data, LocalTime hora) {
+    public RegistroPonto(String id, TipoRegistroPonto tipoRegistro, LocalDate data, LocalTime hora, String observacao) {
         this.id = id;
         this.tipoRegistro = tipoRegistro;
         this.data = data;
         this.hora = hora;
+        this.observacao = observacao != null ? observacao : "";
     }
 
     public String getId() {

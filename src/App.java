@@ -12,11 +12,8 @@ public class App {
 
         String id1 = UUID.randomUUID().toString();
         // Criando um RegistroPonto para ENTRADA com data e hora atuais
-        RegistroPonto registroPonto = new RegistroPonto(
-                id1,
-                TipoRegistroPonto.ENTRADA,
-                LocalDate.now(),
-                LocalTime.now());
+        RegistroPonto registroPonto = new RegistroPonto(id1, TipoRegistroPonto.ENTRADA, LocalDate.now(),
+                LocalTime.now(), null);
 
         RegistroPontoCsvRepository registroPontoCsvRepository = new RegistroPontoCsvRepository();
 
@@ -25,6 +22,6 @@ public class App {
         String registroPontoId = registroPonto.getId().toString();
 
         registroPontoCsvRepository.editarRegistroPonto(registroPontoId,
-                new RegistroPonto(id1, TipoRegistroPonto.SAIDA, LocalDate.now(), LocalTime.now()));
+                new RegistroPonto(id1, TipoRegistroPonto.SAIDA, LocalDate.now(), LocalTime.now(), null));
     }
 }
