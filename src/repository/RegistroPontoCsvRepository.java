@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.RegistroPonto;
+import model.TipoRegistroPonto;
 import util.CsvUtil;
 import util.FormatUtil;
 
@@ -91,6 +92,7 @@ public class RegistroPontoCsvRepository {
     public RegistroPonto[] listarRegistrosPonto() {
         List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
         List<RegistroPonto> registros = new ArrayList<>();
+
         for (String[] linha : linhas) {
             if (linha.length > 0) {
                 RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
@@ -107,6 +109,7 @@ public class RegistroPontoCsvRepository {
      */
     public RegistroPonto buscarRegistroPontoPorId(int id) {
         List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
+
         for (String[] linha : linhas) {
             if (linha.length > 0 && linha[0].equals(String.valueOf(id))) {
                 return FormatUtil.csvParaRegistroPonto(String.join(";", linha));
@@ -192,6 +195,7 @@ public class RegistroPontoCsvRepository {
             LocalDate dataRegistroPontoFim) {
         List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
         List<RegistroPonto> registros = new ArrayList<>();
+
         for (String[] linha : linhas) {
             if (linha.length > 0) {
                 RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
@@ -201,6 +205,25 @@ public class RegistroPontoCsvRepository {
                             || registroPonto.getData().isEqual(dataRegistroPontoFim)) {
                         registros.add(registroPonto);
                     }
+                }
+            }
+        }
+
+        return registros.toArray(new RegistroPonto[0]);
+    }
+
+    /*
+     * função para obter todos os registros de ponto do tipo informado
+     */
+    public RegistroPonto[] buscarRegistrosPontosPorTipo(TipoRegistroPonto tipoRegistroPonto) {
+        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
+        List<RegistroPonto> registros = new ArrayList<>();
+
+        for (String[] linha : linhas) {
+            if (linha.length > 0) {
+                RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
+                if (registroPonto.getTipoRegistro().equals(tipoRegistroPonto)) {
+                    registros.add(registroPonto);
                 }
             }
         }
