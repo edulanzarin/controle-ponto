@@ -83,6 +83,37 @@ public class RegistroPontoCsvRepository {
     }
 
     /*
+     * método responsável por listar todos os registros de ponto
+     * armazenados no arquivo CSV
+     * retorna um array de RegistroPonto
+     */
+    public RegistroPonto[] listarRegistrosPonto() {
+        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
+        List<RegistroPonto> registros = new ArrayList<>();
+        for (String[] linha : linhas) {
+            if (linha.length > 0) {
+                RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
+                registros.add(registroPonto);
+            }
+        }
+        return registros.toArray(new RegistroPonto[0]);
+    }
+
+    /*
+     * método responsável por buscar um registro de ponto específico
+     * através do id
+     */
+    public RegistroPonto buscarRegistroPontoPorId(int id) {
+        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
+        for (String[] linha : linhas) {
+            if (linha.length > 0 && linha[0].equals(String.valueOf(id))) {
+                return FormatUtil.csvParaRegistroPonto(String.join(";", linha));
+            }
+        }
+        return null; /* retorna null se não encontrar */
+    }
+
+    /*
      * adiciona um registroPonto no arquivo CSV
      */
     public void adicionarRegistroPonto(RegistroPonto registroPonto) {
@@ -149,25 +180,5 @@ public class RegistroPontoCsvRepository {
                 novasLinhas.add(String.join(";", linha));
             }
         }
-    }
-
-    /*
-     * método responsável por buscar um registro de ponto específico
-     * através do id
-     */
-    public RegistroPonto buscarRegistroPontoPorId(int id) {
-        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
-        for (String[] linha : linhas) {
-            if (linha.length > 0 && linha[0].equals(String.valueOf(id))) {
-                return FormatUtil.csvParaRegistroPonto(String.join(";", linha));
-            }
-        }
-        return null; /* retorna null se não encontrar */
-    }
-
-    public RegistroPonto[] listarRegistrosPonto() {
-        // Implementar a lógica de listagem de todos os registros ponto no CSV
-        // Isso pode envolver ler o arquivo e retornar um array de RegistroPonto
-        return new RegistroPonto[0]; // Retornar um array vazio ou os registros encontrados
     }
 }
