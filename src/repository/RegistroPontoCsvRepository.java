@@ -3,6 +3,7 @@ package repository;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -199,10 +200,44 @@ public class RegistroPontoCsvRepository {
         for (String[] linha : linhas) {
             if (linha.length > 0) {
                 RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
+
+                /*
+                 * verifica se o registro ponto do Csv está entre a data inicio e a data fim e
+                 * adiciona em registros
+                 */
                 if (registroPonto.getData().isAfter(dataRegistroPontoInicio)
                         || registroPonto.getData().isEqual(dataRegistroPontoInicio)) {
                     if (registroPonto.getData().isBefore(dataRegistroPontoFim)
                             || registroPonto.getData().isEqual(dataRegistroPontoFim)) {
+                        registros.add(registroPonto);
+                    }
+                }
+            }
+        }
+
+        return registros.toArray(new RegistroPonto[0]);
+    }
+
+    /*
+     * função para obter todos os registros de ponto no intervalo entre duas horas
+     */
+    public RegistroPonto[] buscarRegistrosPontoPorHora(LocalTime horaRegistroPontoInicio,
+            LocalTime horaRegistroPontoFim) {
+        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
+        List<RegistroPonto> registros = new ArrayList<>();
+
+        for (String[] linha : linhas) {
+            if (linha.length > 0) {
+                RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
+
+                /*
+                 * verifica se o registro ponto do Csv está entre a hora inicio e a hora fim e
+                 * adiciona em registros
+                 */
+                if (registroPonto.getHora().isAfter(horaRegistroPontoInicio)
+                        || registroPonto.getHora().equals(horaRegistroPontoInicio)) {
+                    if (registroPonto.getHora().isBefore(horaRegistroPontoFim)
+                            || registroPonto.getHora().equals(horaRegistroPontoFim)) {
                         registros.add(registroPonto);
                     }
                 }
@@ -222,6 +257,7 @@ public class RegistroPontoCsvRepository {
         for (String[] linha : linhas) {
             if (linha.length > 0) {
                 RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
+
                 if (registroPonto.getTipoRegistro().equals(tipoRegistroPonto)) {
                     registros.add(registroPonto);
                 }
