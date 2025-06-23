@@ -215,7 +215,7 @@ public class RegistroPontoCsvRepository {
     /*
      * função para obter todos os registros de ponto do tipo informado
      */
-    public RegistroPonto[] buscarRegistrosPontosPorTipo(TipoRegistroPonto tipoRegistroPonto) {
+    public RegistroPonto[] buscarRegistrosPontoPorTipo(TipoRegistroPonto tipoRegistroPonto) {
         List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
         List<RegistroPonto> registros = new ArrayList<>();
 
