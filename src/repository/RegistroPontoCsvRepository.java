@@ -2,6 +2,7 @@ package repository;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +97,7 @@ public class RegistroPontoCsvRepository {
                 registros.add(registroPonto);
             }
         }
+
         return registros.toArray(new RegistroPonto[0]);
     }
 
@@ -110,6 +112,7 @@ public class RegistroPontoCsvRepository {
                 return FormatUtil.csvParaRegistroPonto(String.join(";", linha));
             }
         }
+
         return null; /* retorna null se não encontrar */
     }
 
@@ -180,5 +183,28 @@ public class RegistroPontoCsvRepository {
                 novasLinhas.add(String.join(";", linha));
             }
         }
+    }
+
+    /*
+     * função para obter todos os registros de ponto no intervalo entre duas datas
+     */
+    public RegistroPonto[] buscarRegistrosPontoPorData(LocalDate dataRegistroPontoInicio,
+            LocalDate dataRegistroPontoFim) {
+        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
+        List<RegistroPonto> registros = new ArrayList<>();
+        for (String[] linha : linhas) {
+            if (linha.length > 0) {
+                RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
+                if (registroPonto.getData().isAfter(dataRegistroPontoInicio)
+                        || registroPonto.getData().isEqual(dataRegistroPontoInicio)) {
+                    if (registroPonto.getData().isBefore(dataRegistroPontoFim)
+                            || registroPonto.getData().isEqual(dataRegistroPontoFim)) {
+                        registros.add(registroPonto);
+                    }
+                }
+            }
+        }
+
+        return registros.toArray(new RegistroPonto[0]);
     }
 }
