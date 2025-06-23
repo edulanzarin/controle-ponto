@@ -52,11 +52,10 @@ public class CsvUtil {
      * linhas para quando precisar atualizar todo o conteúdo do arquivo
      */
     public static void sobrescreverArquivo(String caminhoCsv, List<String> linhasCsv) {
-        // Novo método para sobrescrever o arquivo (recriar o CSV inteiro)
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoCsv))) {
             for (String linha : linhasCsv) {
                 bw.write(linha);
-                bw.newLine();
+                bw.newLine(); /* garante que a próxima linha fique em uma linha nova */
             }
         } catch (IOException e) {
             e.printStackTrace();
