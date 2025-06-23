@@ -266,4 +266,11 @@ public class RegistroPontoCsvRepository {
 
         return registros.toArray(new RegistroPonto[0]);
     }
+
+    public RegistroPonto[] buscarRegistrosPontoPorFiltros(boolean filtrarData, boolean filtrarHora,
+            boolean filtrarTipo) {
+        List<RegistroPonto> registros = new ArrayList<>();
+
+        return registros.toArray(new RegistroPonto[0]);
+    }
 }
