@@ -91,34 +91,16 @@ public class RegistroPontoCsvRepository {
      * armazenados no arquivo CSV
      * retorna um array de RegistroPonto
      */
-    public RegistroPonto[] listarRegistrosPonto() {
+    public List<RegistroPonto> listarRegistrosPonto() {
         List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
         List<RegistroPonto> registros = new ArrayList<>();
 
         for (String[] linha : linhas) {
             if (linha.length > 0) {
-                RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
-                registros.add(registroPonto);
+                registros.add(FormatUtil.csvParaRegistroPonto(String.join(";", linha)));
             }
         }
-
-        return registros.toArray(new RegistroPonto[0]);
-    }
-
-    /*
-     * método responsável por buscar um registro de ponto específico
-     * através do id
-     */
-    public RegistroPonto buscarRegistroPontoPorId(int id) {
-        List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
-
-        for (String[] linha : linhas) {
-            if (linha.length > 0 && linha[0].equals(String.valueOf(id))) {
-                return FormatUtil.csvParaRegistroPonto(String.join(";", linha));
-            }
-        }
-
-        return null; /* retorna null se não encontrar */
+        return registros;
     }
 
     /*
@@ -191,133 +173,89 @@ public class RegistroPontoCsvRepository {
     }
 
     /*
-     * função para obter todos os registros de ponto no intervalo entre duas datas
+     * método responsável por buscar um registro de ponto específico
+     * através do id
      */
-    public List<String[]> buscarRegistrosPontoPorData(LocalDate dataRegistroPontoInicio,
-            LocalDate dataRegistroPontoFim, List<String[]> registrosFiltrados) {
-
-        List<String[]> linhas;
-
-        if (registrosFiltrados == null) {
-            linhas = CsvUtil.lerLinhas(caminhoCsv);
-        } else {
-            linhas = registrosFiltrados;
-        }
-
-        List<RegistroPonto> registros = new ArrayList<>();
-
-        for (String[] linha : linhas) {
-            if (linha.length > 0) {
-                RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
-
-                /*
-                 * verifica se o registro ponto do Csv está entre a data inicio e a data fim e
-                 * adiciona em registros
-                 */
-                if (registroPonto.getData().isAfter(dataRegistroPontoInicio)
-                        || registroPonto.getData().isEqual(dataRegistroPontoInicio)) {
-                    if (registroPonto.getData().isBefore(dataRegistroPontoFim)
-                            || registroPonto.getData().isEqual(dataRegistroPontoFim)) {
-                        registros.add(registroPonto);
-                    }
-                }
-            }
-        }
-
-        return registros.toArray(new RegistroPonto[0]);
-    }
-
-    /*
-     * função para obter todos os registros de ponto no intervalo entre duas horas
-     */
-    public RegistroPonto[] buscarRegistrosPontoPorHora(LocalTime horaRegistroPontoInicio,
-            LocalTime horaRegistroPontoFim, RegistroPonto[] registrosFiltrados) {
-
-        List<String[]> linhas;
-
-        if (registrosFiltrados == null) {
-            linhas = CsvUtil.lerLinhas(caminhoCsv);
-        } else {
-            linhas = registrosFiltrados;
-        }
-
-        List<RegistroPonto> registros = new ArrayList<>();
-
-        for (String[] linha : linhas) {
-            if (linha.length > 0) {
-                RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
-
-                /*
-                 * verifica se o registro ponto do Csv está entre a hora inicio e a hora fim e
-                 * adiciona em registros
-                 */
-                if (registroPonto.getHora().isAfter(horaRegistroPontoInicio)
-                        || registroPonto.getHora().equals(horaRegistroPontoInicio)) {
-                    if (registroPonto.getHora().isBefore(horaRegistroPontoFim)
-                            || registroPonto.getHora().equals(horaRegistroPontoFim)) {
-                        registros.add(registroPonto);
-                    }
-                }
-            }
-        }
-
-        return registros.toArray(new RegistroPonto[0]);
-    }
-
-    /*
-     * função para obter todos os registros de ponto do tipo informado
-     */
-    public List<String[]> buscarRegistrosPontoPorTipo(TipoRegistroPonto tipoRegistroPonto,
-            List<String[]> registrosFiltrados) {
-
-        List<String[]> linhas;
-
-        if (registrosFiltrados == null) {
-            linhas = CsvUtil.lerLinhas(caminhoCsv);
-        } else {
-            linhas = registrosFiltrados;
-        }
-
-        List<String[]> registros = new ArrayList<>();
-
-        for (String[] linha : linhas) {
-            if (linha.length > 0) {
-                RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
-
-                if (registroPonto.getTipoRegistro().equals(tipoRegistroPonto)) {
-
-                    String registroPontoFormatado = FormatUtil.registroPontoParaCsv(registroPonto);
-                    registros.add(registroPontoFormatado);
-                }
-            }
-        }
-
-        return registros.toArray(new String[0]);
-    }
-
-    public RegistroPonto[] buscarRegistrosPontoPorFiltros(LocalDate dataRegistroPontoInicio,
-            LocalDate dataRegistroPontoFim, LocalTime horaRegistroPontoInicio, LocalTime horaRegistroPontoFim,
-            TipoRegistroPonto tipoRegistroPonto) {
+    public RegistroPonto buscarRegistroPontoPorId(int id) {
         List<String[]> linhas = CsvUtil.lerLinhas(caminhoCsv);
-        List<RegistroPonto> registrosFiltroData = new ArrayList<>();
-        List<RegistroPonto> registrosFiltroHora = new ArrayList<>();
-        List<RegistroPonto> registroFiltroTipo = new ArrayList<>();
-        List<RegistroPonto> registros = new ArrayList<>();
 
         for (String[] linha : linhas) {
-            if (linha.length > 0) {
-                RegistroPonto registroPonto = FormatUtil.csvParaRegistroPonto(String.join(";", linha));
-
-                if (dataRegistroPontoInicio != null) {
-                    registrosFiltroData
-                            .toArray(buscarRegistrosPontoPorData(dataRegistroPontoInicio, dataRegistroPontoFim, null));
-
-                            if (horaRegistroPontoInicio != null) {
-                                regis
-                            }
-                }
+            if (linha.length > 0 && linha[0].equals(String.valueOf(id))) {
+                return FormatUtil.csvParaRegistroPonto(String.join(";", linha));
             }
         }
+
+        return null; /* retorna null se não encontrar */
+    }
+
+    /*
+     * função para obter todos os registros de ponto entre duas datas
+     */
+    private List<RegistroPonto> filtrarPorData(List<RegistroPonto> registros, LocalDate inicio, LocalDate fim) {
+        if (inicio == null || fim == null)
+            return registros;
+
+        List<RegistroPonto> filtrados = new ArrayList<>();
+        for (RegistroPonto registro : registros) {
+            if ((registro.getData().isEqual(inicio) || registro.getData().isAfter(inicio)) &&
+                    (registro.getData().isEqual(fim) || registro.getData().isBefore(fim))) {
+                filtrados.add(registro);
+            }
+        }
+        return filtrados;
+    }
+
+    /*
+     * função para obter todos os registros de ponto entre duas horas
+     */
+    private List<RegistroPonto> filtrarPorHora(List<RegistroPonto> registros, LocalTime inicio, LocalTime fim) {
+        if (inicio == null || fim == null)
+            return registros;
+
+        List<RegistroPonto> filtrados = new ArrayList<>();
+        for (RegistroPonto registro : registros) {
+            if ((registro.getHora().equals(inicio) || registro.getHora().isAfter(inicio)) &&
+                    (registro.getHora().equals(fim) || registro.getHora().isBefore(fim))) {
+                filtrados.add(registro);
+            }
+        }
+        return filtrados;
+    }
+
+    /*
+     * função para obter todos os registros de ponto de um tipo específico
+     */
+    private List<RegistroPonto> filtrarPorTipo(List<RegistroPonto> registros, TipoRegistroPonto tipo) {
+        if (tipo == null)
+            return registros;
+
+        List<RegistroPonto> filtrados = new ArrayList<>();
+        for (RegistroPonto registro : registros) {
+            if (registro.getTipoRegistro().equals(tipo)) {
+                filtrados.add(registro);
+            }
+        }
+        return filtrados;
+    }
+
+    /*
+     * função geral para aplicar todos os filtros combinados
+     */
+    public RegistroPonto[] buscarRegistrosPontoPorFiltros(LocalDate dataInicio, LocalDate dataFim,
+            LocalTime horaInicio, LocalTime horaFim,
+            TipoRegistroPonto tipo) {
+        List<String[]> linhasCsv = CsvUtil.lerLinhas(caminhoCsv);
+        List<RegistroPonto> registros = new ArrayList<>();
+
+        for (String[] linha : linhasCsv) {
+            if (linha.length > 0) {
+                registros.add(FormatUtil.csvParaRegistroPonto(String.join(";", linha)));
+            }
+        }
+
+        registros = filtrarPorData(registros, dataInicio, dataFim);
+        registros = filtrarPorHora(registros, horaInicio, horaFim);
+        registros = filtrarPorTipo(registros, tipo);
 
         return registros.toArray(new RegistroPonto[0]);
     }
