@@ -192,6 +192,10 @@ public class RegistroPontoCsvRepository {
      * função para obter todos os registros de ponto entre duas datas
      */
     private List<RegistroPonto> filtrarPorData(List<RegistroPonto> registros, LocalDate inicio, LocalDate fim) {
+
+        /*
+         * se não for informado data inicio e fim, ignora esse filtro
+         */
         if (inicio == null || fim == null)
             return registros;
 
@@ -202,6 +206,7 @@ public class RegistroPontoCsvRepository {
                 filtrados.add(registro);
             }
         }
+
         return filtrados;
     }
 
@@ -209,6 +214,10 @@ public class RegistroPontoCsvRepository {
      * função para obter todos os registros de ponto entre duas horas
      */
     private List<RegistroPonto> filtrarPorHora(List<RegistroPonto> registros, LocalTime inicio, LocalTime fim) {
+
+        /*
+         * se não for informado hora inicio e fim, ignora esse filtro
+         */
         if (inicio == null || fim == null)
             return registros;
 
@@ -219,6 +228,7 @@ public class RegistroPontoCsvRepository {
                 filtrados.add(registro);
             }
         }
+
         return filtrados;
     }
 
@@ -226,6 +236,10 @@ public class RegistroPontoCsvRepository {
      * função para obter todos os registros de ponto de um tipo específico
      */
     private List<RegistroPonto> filtrarPorTipo(List<RegistroPonto> registros, TipoRegistroPonto tipo) {
+
+        /*
+         * se não for informado tipo de registro de ponto, ignora esse filtro
+         */
         if (tipo == null)
             return registros;
 
@@ -235,6 +249,7 @@ public class RegistroPontoCsvRepository {
                 filtrados.add(registro);
             }
         }
+
         return filtrados;
     }
 
@@ -253,6 +268,10 @@ public class RegistroPontoCsvRepository {
             }
         }
 
+        /*
+         * cada filtro recebe List<RegistroPonto> retornado do filtro anterior e aplica
+         * o novo filtro
+         */
         registros = filtrarPorData(registros, dataInicio, dataFim);
         registros = filtrarPorHora(registros, horaInicio, horaFim);
         registros = filtrarPorTipo(registros, tipo);
