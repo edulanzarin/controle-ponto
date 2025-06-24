@@ -14,12 +14,13 @@ public class MainPanel {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         /* aba para adicionar registros de ponto */
-        JPanel tab1 = new JPanel();
+        AdicionarRegistroPontoPanel adicionarPanel = new AdicionarRegistroPontoPanel();
+        JPanel adicionarRegistrosPontoTab = adicionarPanel.getPanel();
 
         /* aba para visualizar registros de ponto */
         JPanel tab2 = new JPanel();
 
-        tabbedPane.addTab("Adicionar Pontos", tab1);
+        tabbedPane.addTab("Adicionar Pontos", adicionarRegistrosPontoTab);
         tabbedPane.addTab("Visualizar Pontos", tab2);
 
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
