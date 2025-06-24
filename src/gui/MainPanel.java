@@ -1,8 +1,7 @@
 package gui;
 
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 
 public class MainPanel {
 
@@ -10,18 +9,23 @@ public class MainPanel {
 
     public MainPanel() {
         mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE);
 
         JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setBackground(Color.WHITE);
+        tabbedPane.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
-        /* aba para adicionar registros de ponto */
+        // Aba de registro
         AdicionarRegistrosPontoPanel adicionarPanel = new AdicionarRegistrosPontoPanel();
-        JPanel adicionarRegistrosPontoTab = adicionarPanel.getPanel();
+        tabbedPane.addTab("Novo Registro", adicionarPanel.getPanel());
 
-        /* aba para visualizar registros de ponto */
-        JPanel tab2 = new JPanel();
-
-        tabbedPane.addTab("Adicionar Pontos", adicionarRegistrosPontoTab);
-        tabbedPane.addTab("Visualizar Pontos", tab2);
+        // Aba de visualização
+        JPanel viewPanel = new JPanel(new BorderLayout());
+        viewPanel.setBackground(Color.WHITE);
+        viewPanel.add(new JLabel(
+                "<html><center><h2>Visualização de Registros</h2><p>Nenhum registro encontrado</p></center></html>",
+                SwingConstants.CENTER));
+        tabbedPane.addTab("Visualizar", viewPanel);
 
         mainPanel.add(tabbedPane, BorderLayout.CENTER);
     }
