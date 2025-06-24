@@ -4,14 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import model.TipoRegistroPonto;
 
-public class AdicionarRegistroPontoPanel {
+public class AdicionarRegistrosPontoPanel {
 
     private JPanel registroPontoPanel;
 
-    public AdicionarRegistroPontoPanel() {
+    public AdicionarRegistrosPontoPanel() {
         registroPontoPanel = new JPanel();
         registroPontoPanel.setLayout(new BoxLayout(registroPontoPanel, BoxLayout.Y_AXIS));
-        registroPontoPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15)); // Margens
+        registroPontoPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         // Tipo de Registro
         JPanel tipoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

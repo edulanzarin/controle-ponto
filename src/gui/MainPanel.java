@@ -14,7 +14,7 @@ public class MainPanel {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         /* aba para adicionar registros de ponto */
-        AdicionarRegistroPontoPanel adicionarPanel = new AdicionarRegistroPontoPanel();
+        AdicionarRegistrosPontoPanel adicionarPanel = new AdicionarRegistrosPontoPanel();
         JPanel adicionarRegistrosPontoTab = adicionarPanel.getPanel();
 
         /* aba para visualizar registros de ponto */
