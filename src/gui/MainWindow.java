@@ -21,7 +21,7 @@ public class MainWindow {
         mainFrame = new JFrame("Controle de Ponto");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(600, 500);
-        mainFrame.setMinimumSize(new Dimension(500, 400));
+        mainFrame.setMinimumSize(new Dimension(600, 600));
         mainFrame.setLocationRelativeTo(null);
 
         MainPanel panel = new MainPanel();

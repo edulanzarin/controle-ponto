@@ -1,7 +1,7 @@
 package gui;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
@@ -10,30 +10,41 @@ import model.TipoRegistroPonto;
 public class AdicionarRegistrosPontoPanel {
 
     private JPanel registroPontoPanel;
-    private Color backgroundColor = Color.WHITE;
-    private Color primaryColor = new Color(50, 50, 50);
+    private Color backgroundColor = new Color(245, 248, 250);
+    private Color primaryColor = new Color(51, 51, 51);
     private Color accentColor = new Color(0, 122, 255);
+    private Color borderColor = new Color(225, 232, 237);
 
     public AdicionarRegistrosPontoPanel() {
-        registroPontoPanel = new JPanel();
+        registroPontoPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setColor(backgroundColor);
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                g2d.dispose();
+            }
+        };
         registroPontoPanel.setLayout(new BoxLayout(registroPontoPanel, BoxLayout.Y_AXIS));
-        registroPontoPanel.setBorder(new EmptyBorder(40, 40, 40, 40));
-        registroPontoPanel.setBackground(backgroundColor);
+        registroPontoPanel.setBorder(new EmptyBorder(30, 40, 40, 40));
+        registroPontoPanel.setOpaque(false);
 
         // Título
         JLabel titulo = new JLabel("Registro de Ponto");
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titulo.setForeground(primaryColor);
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titulo.setBorder(new EmptyBorder(0, 0, 30, 0));
+        titulo.setBorder(new EmptyBorder(0, 0, 25, 0));
         registroPontoPanel.add(titulo);
 
         // Formulário centralizado
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridBagLayout());
-        formPanel.setBackground(backgroundColor);
+        formPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(12, 12, 12, 12);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
@@ -53,8 +64,8 @@ public class AdicionarRegistrosPontoPanel {
         formPanel.add(createLabel("Data:"), gbc);
 
         gbc.gridx = 1;
-        JFormattedTextField dataField = createFormattedField("####-##-##");
-        formPanel.add(dataField, gbc);
+        JFormattedTextField dataField = createFormattedField("##/##/####");
+        formPanel.add(createFieldPanel(dataField), gbc);
 
         // Hora
         gbc.gridx = 0;
@@ -63,7 +74,7 @@ public class AdicionarRegistrosPontoPanel {
 
         gbc.gridx = 1;
         JFormattedTextField horaField = createFormattedField("##:##");
-        formPanel.add(horaField, gbc);
+        formPanel.add(createFieldPanel(horaField), gbc);
 
         // Observação
         gbc.gridx = 0;
@@ -76,23 +87,42 @@ public class AdicionarRegistrosPontoPanel {
         obsArea.setWrapStyleWord(true);
         JScrollPane obsScroll = new JScrollPane(obsArea);
         styleTextArea(obsScroll);
-        formPanel.add(obsScroll, gbc);
+        formPanel.add(createFieldPanel(obsScroll), gbc);
 
         // Botão Salvar
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.CENTER;
-        JButton salvarButton = new JButton("SALVAR");
+        JButton salvarButton = new JButton("SALVAR REGISTRO") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+                super.paintComponent(g);
+            }
+        };
         styleButton(salvarButton);
         formPanel.add(salvarButton, gbc);
 
         registroPontoPanel.add(formPanel);
     }
 
+    private JPanel createFieldPanel(JComponent component) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(false);
+        panel.setBorder(new CompoundBorder(
+                new MatteBorder(1, 1, 1, 1, borderColor),
+                new EmptyBorder(5, 10, 5, 10)));
+        panel.add(component, BorderLayout.CENTER);
+        return panel;
+    }
+
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        label.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
         label.setForeground(primaryColor);
         return label;
     }
@@ -103,10 +133,8 @@ public class AdicionarRegistrosPontoPanel {
             formatter.setPlaceholderCharacter('_');
             JFormattedTextField field = new JFormattedTextField(formatter);
             field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-            field.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(200, 200, 200)),
-                    new EmptyBorder(5, 5, 5, 5)));
-            field.setBackground(backgroundColor);
+            field.setBorder(BorderFactory.createEmptyBorder());
+            field.setOpaque(false);
             return field;
         } catch (ParseException e) {
             return new JFormattedTextField();
@@ -115,29 +143,57 @@ public class AdicionarRegistrosPontoPanel {
 
     private void styleComboBox(JComboBox<?> comboBox) {
         comboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        comboBox.setBackground(backgroundColor);
+        comboBox.setBackground(Color.WHITE);
         comboBox.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(200, 200, 200)),
-                new EmptyBorder(5, 5, 5, 5)));
+                new MatteBorder(1, 1, 1, 1, borderColor),
+                new EmptyBorder(5, 10, 5, 10)));
+        comboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+                    boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setBorder(new EmptyBorder(5, 10, 5, 10));
+                return this;
+            }
+        });
     }
 
     private void styleTextArea(JScrollPane scrollPane) {
-        scrollPane.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(200, 200, 200)),
-                new EmptyBorder(5, 5, 5, 5)));
-        scrollPane.setBackground(backgroundColor);
+        JTextArea textArea = (JTextArea) scrollPane.getViewport().getView();
+        textArea.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        textArea.setOpaque(false);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
     }
 
     private void styleButton(JButton button) {
-        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
         button.setBackground(accentColor);
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
-        button.setBorder(new EmptyBorder(12, 40, 12, 40));
+        button.setBorder(new EmptyBorder(12, 30, 12, 30));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setContentAreaFilled(false);
+        button.setOpaque(false);
+
+        // Efeito hover
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(accentColor.darker());
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(accentColor);
+            }
+        });
     }
 
     public JPanel getPanel() {
-        return registroPontoPanel;
+        JPanel container = new JPanel(new BorderLayout());
+        container.setBackground(new Color(240, 242, 245));
+        container.setBorder(new EmptyBorder(20, 20, 20, 20));
+        container.add(registroPontoPanel, BorderLayout.CENTER);
+        return container;
     }
 }
